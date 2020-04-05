@@ -2,7 +2,10 @@ import React from 'react';
 
 const home = () => {
   return (
-    <div>React Component, hello, haha!</div>
+    <div>
+      <div>React Component, hello, haha!</div>
+      <button onClick={() => {alert('click')}}>click</button>
+    </div>
   );
 };
 
