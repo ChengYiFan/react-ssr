@@ -7,7 +7,7 @@ const serverConfig = {
   mode: 'development',
   target: 'node',   // webpack 打包服务器端代码
   entry: {
-    index: path.join(__dirname, './src', 'index.js'),
+    index: path.join(__dirname, './src/server', 'index.js'),
   },
   output: {
     filename: 'bundle.js',

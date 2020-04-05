@@ -2,7 +2,7 @@ import Koa from 'koa';
 import React from 'react';
 import Static from 'koa-static';
 import { renderToString } from 'react-dom/server';
-import Home from './pages/Home';
+import Home from '../pages/Home';
 
 const Component = renderToString(<Home />);
 const app = new Koa();
