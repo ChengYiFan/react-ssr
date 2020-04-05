@@ -2,13 +2,18 @@ import Koa from 'koa';
 import React from 'react';
 import Static from 'koa-static';
 import { renderToString } from 'react-dom/server';
-import Home from '../pages/Home';
+import { StaticRouter } from 'react-router-dom';
+import Routes from '../Routes';
 
-const Component = renderToString(<Home />);
 const app = new Koa();
 app.use(Static('public'));
 
 app.use((ctx) => {
+  const Component = renderToString((
+    <StaticRouter location={ctx.request.path}>
+      {Routes}
+    </StaticRouter>
+  ));
   ctx.response.body = `
     <!DOCTYPE html>
     <html lang="en">
