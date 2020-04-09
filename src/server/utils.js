@@ -2,12 +2,16 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import Routes from '../Routes';
+import { Provider } from 'react-redux';
+import getStore from '../Store';
 
 export const render = (req) => {
   const Component = renderToString((
-    <StaticRouter location={req.path}>
-      {Routes}
-    </StaticRouter>
+    <Provider store={getStore()}>
+      <StaticRouter location={req.path}>
+        {Routes}
+      </StaticRouter>
+    </Provider>
   ));
 
   return `
