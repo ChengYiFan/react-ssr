@@ -1,14 +1,18 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
-import saga from 'redux-saga';
-import homeReducer from '../pages/Home/store/reducer';
-
-// 组合所有的reducer
-const reducer = combineReducers({
-  home: homeReducer,
-});
+import createSagaMiddleware from 'redux-saga';
+import { reducer as homeReducer } from '../pages/Home/store';
 
 const getStore = () => {
-  return createStore(reducer, applyMiddleware(saga));
+  // 组合所有的reducer
+  const reducer = combineReducers({
+    home: homeReducer,
+  });
+
+  const sagaMiddleware = createSagaMiddleware();
+  return {
+    ...createStore(reducer, applyMiddleware(sagaMiddleware)),
+    runSaga: sagaMiddleware.run
+  }
 }
 
 export default getStore;

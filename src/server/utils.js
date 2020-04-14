@@ -4,10 +4,14 @@ import { StaticRouter } from 'react-router-dom';
 import Routes from '../Routes';
 import { Provider } from 'react-redux';
 import getStore from '../Store';
+import { rootSaga as homeSaga } from '../pages/Home/store';
+
+const store = getStore();
+store.runSaga(homeSaga);
 
 export const render = (req) => {
   const Component = renderToString((
-    <Provider store={getStore()}>
+    <Provider store={store}>
       <StaticRouter location={req.path}>
         {Routes}
       </StaticRouter>
