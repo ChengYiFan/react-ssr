@@ -1,3 +1,5 @@
+import { CHANGE_LIST } from './contants';
+
 const defaultState = {
   newsList: [],
   name: 'cici',
@@ -5,11 +7,11 @@ const defaultState = {
 
 export default(state = defaultState, action) => {
   switch(action.type) {
-    case 'change_home_list':
+    case CHANGE_LIST:
       return {
         ...state,
         newsList: action.newsList,
-      }; 
+      };
     default:
       return state;
   }

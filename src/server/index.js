@@ -1,12 +1,30 @@
 import Koa from 'koa';
 import Static from 'koa-static';
+import { matchRoutes, renderRoutes } from "react-router-config";
+import routes from '../Routes';
+import { getStore } from '../Store';
 import { render } from './utils';
+import { rootSaga as homeSaga } from '../pages/Home/store';
+import { all } from 'redux-saga/effects';
 
 const app = new Koa();
 app.use(Static('public'));
 
+const store = getStore();
+store.runSaga(homeSaga);
+
 app.use((ctx) => {
-  ctx.response.body = render(ctx.request);
+  const req = ctx.request;
+  // 根据路由的路径，向store里面加数据
+  const branch = matchRoutes(routes, req.path);
+  // 让 matchRoutes 里面所有的组件，对应的loadData方法执行一次
+  const promises = branch.map(({ route }) => {
+    return route.loadData ? route.loadData(store) : Promise.resolve(null);
+  });
+  Promise.all(promises).then(() => {
+    ctx.body = render(req, store, routes);
+    console.log(store.getState());
+  });
 });
 
 app.listen(8800, () => {

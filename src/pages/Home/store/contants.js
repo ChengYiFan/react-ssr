@@ -1,0 +1,2 @@
+export const CHANGE_LIST = 'HOME/CHANGE_LIST';
+export const FETCH_HOME_LIST = 'HOME/FETCH_LIST';
