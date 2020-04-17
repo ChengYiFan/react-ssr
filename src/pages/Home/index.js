@@ -8,7 +8,6 @@ class Home extends Component {
   componentDidMount() {
     // 使用 redux-saga发送异步请求
     const { fetchHomeList, newsList } = this.props;
-    console.log('newsList==', newsList);
     if(!newsList.length) {
       fetchHomeList();
     }
