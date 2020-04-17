@@ -1,14 +1,60 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Header from '../../components/Header';
+import { connect } from 'react-redux';
+import { FETCH_HOME_LIST } from './store/contants';
 
-const home = () => {
-  return (
-    <div>
-      <Header />
-      <div>React Component, hello, haha!</div>
-      <button onClick={() => {alert('click')}}>click</button>
-    </div>
-  );
+class Home extends Component {
+
+  componentDidMount() {
+    // 使用 redux-saga发送异步请求
+    const { fetchHomeList, newsList } = this.props;
+    console.log('newsList==', newsList);
+    if(!newsList.length) {
+      fetchHomeList();
+    }
+  };
+
+  getList = () => {
+    const { newsList } = this.props;
+    return newsList.map(i => <div key={i.id}>{i.title}</div>);
+  };
+
+  render() {
+    const { name, newsList } = this.props;
+    return (
+      <div>
+        <Header />
+        <div>React Component, hello, {name}!</div>
+        <div>
+          {this.getList()}
+        </div>
+        <button onClick={() => {alert('click')}}>click</button>
+      </div>
+    );
+  }
 };
 
-export default home;
+Home.loadData = (store) => {
+  // 负责在服务器端渲染之前，把路由需要的数据提前加载好
+  const { dispatch } = store;
+  dispatch({
+    type: FETCH_HOME_LIST,
+  });
+
+};
+
+const mapStateToProps = state => ({
+  newsList: state.home.newsList,
+  name: state.home.name,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchHomeList() {
+    dispatch({
+      type: FETCH_HOME_LIST,
+    });
+  }
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

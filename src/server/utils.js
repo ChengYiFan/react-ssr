@@ -1,13 +1,19 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-import Routes from '../Routes';
+import { StaticRouter, Route, matchPath } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-export const render = (req) => {
+export const render = (req, store, routes) => {
   const Component = renderToString((
-    <StaticRouter location={req.path}>
-      {Routes}
-    </StaticRouter>
+    <Provider store={store}>
+      <StaticRouter location={req.path}>
+        <div>
+          {routes.map(route => (
+            <Route {...route} />
+          ))}
+        </div>
+      </StaticRouter>
+    </Provider>
   ));
 
   return `
@@ -21,6 +27,11 @@ export const render = (req) => {
     </head>
     <body>
         <div id="root">${Component}</div>
+        <script>
+					window.context = {
+						state: ${JSON.stringify(store.getState())}
+					}
+				</script>
         <script src="./index.js"></script>
     </body>
     </html>
