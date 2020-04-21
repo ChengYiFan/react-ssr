@@ -1,9 +1,8 @@
+import clientAxios from '../../../client/request';
+import serverAxios from '../../../server/request';
 import axios from 'axios';
 
-export async function fetchHomeList() {
-  const { data: { success, data } } = await axios.get('http://47.95.113.63/ssr/api/news.json?secret=PP87ANTIPIRATE');
-  if(!success) {
-    throw new Error('操作失败请重试！');
-  }
-  return data;
+export async function fetchHomeList(server) {
+  const request = server ? serverAxios : clientAxios;
+  return request.get('/api/news.json?secret=PP87ANTIPIRATE');
 }

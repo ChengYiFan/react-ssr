@@ -36,11 +36,24 @@ class Home extends Component {
 
 Home.loadData = (store) => {
   // 负责在服务器端渲染之前，把路由需要的数据提前加载好
-  const { dispatch } = store;
-  dispatch({
-    type: FETCH_HOME_LIST,
-  });
-
+  // const { dispatch } = store;
+  // new Promise((resolve) => {
+  //   store.dispatch({
+  //     type: FETCH_HOME_LIST,
+  //     server: true,
+  //     resolve,
+  //   });
+  // }).then(res => {
+  //   console.log('ressddksjafkals===', res);
+  //   return res;
+  // });
+  console.log('store===', store);
+  return Promise.resolve(
+    store.dispatch({
+      type: FETCH_HOME_LIST,
+      server: true,
+    })
+  );
 };
 
 const mapStateToProps = state => ({
@@ -52,6 +65,7 @@ const mapDispatchToProps = dispatch => ({
   fetchHomeList() {
     dispatch({
       type: FETCH_HOME_LIST,
+      server: false,
     });
   }
 });

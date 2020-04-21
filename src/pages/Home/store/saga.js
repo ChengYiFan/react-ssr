@@ -7,9 +7,12 @@ const changeList = list => ({
   newsList: list,
 });
 
-function* getHomeList() {
-  const res = yield call(fetchHomeList);
-  yield putResolve(changeList(res));
+function* getHomeList({ server }) {
+  const res = yield call(fetchHomeList, server);
+  const { data: { success, data } } = res;
+  if(success){
+    yield putResolve(changeList(data));
+  }
 }
 
 function* rootSaga() {
