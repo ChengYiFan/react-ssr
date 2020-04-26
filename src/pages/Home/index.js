@@ -23,7 +23,6 @@ class Home extends Component {
     const { name, newsList } = this.props;
     return (
       <div>
-        <Header />
         <div>React Component, hello, {name}!</div>
         <div>
           {this.getList()}
@@ -36,7 +35,6 @@ class Home extends Component {
 
 Home.loadData = (store) => {
   // 负责在服务器端渲染之前，把路由需要的数据提前加载好
-  console.log('store===', store);
   return Promise.resolve(
     store.dispatch({
       type: FETCH_HOME_LIST,
