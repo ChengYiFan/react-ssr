@@ -7,8 +7,8 @@ const changeList = list => ({
   newsList: list,
 });
 
-function* getHomeList({ server }) {
-  const res = yield call(fetchHomeList, server);
+function* getHomeList(payload) {
+  const res = yield call(fetchHomeList, payload.server);
   const { data: { success, data } } = res;
   if(success){
     yield putResolve(changeList(data));

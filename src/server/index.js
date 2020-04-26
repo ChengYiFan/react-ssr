@@ -5,8 +5,6 @@ import { matchRoutes, renderRoutes } from "react-router-config";
 import routes from '../Routes';
 import { getStore } from '../Store';
 import { render } from './utils';
-import { rootSaga as homeSaga } from '../pages/Home/store';
-import { all } from 'redux-saga/effects';
 
 const options = {
   targets: {
@@ -23,13 +21,11 @@ app.use(proxy(options));  // 注册
 app.use(Static('public'));
 
 const store = getStore();
-store.runSaga(homeSaga);
 
 app.use((ctx) => {
   const req = ctx.request;
   // 根据路由的路径，向store里面加数据
   const branch = matchRoutes(routes, req.path);
-  console.log('branch==', branch);
   // 让 matchRoutes 里面所有的组件，对应的loadData方法执行一次
   const promises = branch.map(({ route }) => {
     return route.loadData ? route.loadData(store) : Promise.resolve(null);

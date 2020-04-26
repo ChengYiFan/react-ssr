@@ -5,9 +5,13 @@
 # roadhog-api-doc ignore
 /src/utils/request-temp.js
 _roadhog-api-doc
+/build
+/public/index.js
 
 # production
 /dist
+/build
+/public/index.js
 /.vscode
 
 # misc
